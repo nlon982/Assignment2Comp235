@@ -1,0 +1,52 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+
+<main id="main">
+    <header id="article-header">
+        <h1>{{ articles_title }}</h1>
+    </header>
+
+    {% for a_movie_dict in movie_dict_list %}
+    <article id="article">
+        <table id = "movie_item">
+            <tr>
+                <td>
+                    <h2>
+                        {{ a_movie_dict.title }} ({{a_movie_dict.release_year }})
+                    </h2>
+                    <p id = "description">
+                        {{ a_movie_dict.description }} </td>
+                    </p>
+                </td>
+                <td> Runtime (minutes): {{ a_movie_dict.runtime_minutes }} </td>
+            </tr>
+            <tr>
+                <td>
+                    <table>
+                        <tr>
+                            <td>
+                                <p> Genres: {{ a_movie_dict.genres }} </p>
+                                <p> Director: {{ a_movie_dict.director }} </p>
+                                <p> Actors: {{ a_movie_dict.actors }} </p>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+                <td>
+                    <table>
+                        <tr>
+                            <td> External Rating: {{ a_movie_dict.external_rating }} </td>
+                        </tr>
+                        <tr>
+                            <td> Metascore: {{ a_movie_dict.metascore }} </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+    </article>
+    {% endfor %}
+
+</main>
+{% endblock %}
