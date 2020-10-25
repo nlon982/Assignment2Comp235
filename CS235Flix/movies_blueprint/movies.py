@@ -17,3 +17,8 @@ def browse():
     movie_dict_list = services.get_movies(repo_instance)
     return render_template('movies/movies.html', movie_dict_list = movie_dict_list)
 
+@movies_blueprint.route('/movie_page', methods=['GET'])
+def movie_page():
+    movie_title = request.args.get('title')
+    return "This is the page for: {}".format(movie_title)
+

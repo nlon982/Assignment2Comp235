@@ -244,6 +244,10 @@ input[type='submit']:hover {
     padding: 15px;
 }
 
+#movie_item:hover {
+    background-color: #ffb899;
+}
+
 td {
     vertical-align:top
 }
