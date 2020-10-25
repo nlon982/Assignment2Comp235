@@ -1,6 +1,8 @@
 from CS235Flix.domain.actor import Actor
 from CS235Flix.domain.genre import Genre
 from CS235Flix.domain.director import Director
+from CS235Flix.domain.review import Review
+
 
 def get_movie_hash(title, release_year):
     return hash(title + str(release_year))
@@ -30,7 +32,19 @@ class Movie:
         self.__revenue = None
         self.__metascore = None
 
+        self.__review_list = list()
+
     #------------------------ getter and setter methods (for all attributes except year)
+    @property
+    def review_list(self):
+        return self.__review_list
+
+    @review_list.setter
+    def review_list(self, review_list):
+        for a_review in review_list:
+            if type(a_review) == Review and a_review.movie == self: # uses short-circuiting
+                self.__review_list.append(a_review)
+
     @property
     def title(self):
         return self.__title

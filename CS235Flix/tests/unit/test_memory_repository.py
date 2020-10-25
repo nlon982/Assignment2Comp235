@@ -1,19 +1,27 @@
 import pytest
 
 from CS235Flix.adapters.memory_repository import MemoryRepository, populate
+from CS235Flix.domain.user import User
 from CS235Flix.domain.actor import Actor
 from CS235Flix.domain.director import Director
 from CS235Flix.domain.genre import Genre
 
+from CS235Flix.domain.review import Review, make_review
+
 
 @pytest.fixture
 def memory_repository_with_data():
-    csv_path = r"C:\Users\Nathan Longhurst\OneDrive - The University of Auckland\b Comp235\Assignment 2\GitHub\Assignment2Comp235\CS235Flix\adapters\data\Data1000Movies.csv"
+    csv_path = r"C:\Users\Nathan Longhurst\OneDrive - The University of Auckland\b Comp235\Assignment 2\GitHub\Assignment2Comp235\CS235Flix\adapters\data"
     memory_repository = MemoryRepository()
     populate(csv_path, memory_repository)
     return memory_repository
 
-class TestMemoryRepositoryWithData:
+@pytest.fixture
+def blank_memory_repository():
+    memory_repository = MemoryRepository()
+    return memory_repository
+
+class TestMemoryRepositoryWithData: # this inherently tests getters and setters for movies, directors, actors and genres
     def test_movie_dict(self, memory_repository_with_data):
         movie_object = memory_repository_with_data.get_movie("Guardians of the Galaxy", 2014)
         assert movie_object.title == "Guardians of the Galaxy"
@@ -44,3 +52,15 @@ class TestMemoryRepositoryWithData:
         assert len(memory_repository_with_data.get_all_directors()) == 644
         assert len(memory_repository_with_data.get_all_actors()) == 1985
         assert len(memory_repository_with_data.get_all_genres()) == 20
+
+    def test_user_list(self, memory_repository_with_data):
+        assert isinstance(memory_repository_with_data.get_user("thorke"), User)
+
+class TestBlankMemoryRepository:
+    def test_add_and_get_user(self, blank_memory_repository):
+        a_user = User("oldmanjenkins", "Elephant12")
+        blank_memory_repository.add_user(a_user)
+
+        assert blank_memory_repository.get_user("oldmanjenkins") == a_user
+
+

@@ -51,4 +51,18 @@ class AbstractRepository(abc.ABC):
     def get_all_genres(self):
         raise NotImplementedError
 
-# todo, account for users, reviews, etc.
+    @abc.abstractmethod
+    def add_user(self, user):
+        raise NotImplementedError
+
+    @abc.abstractmethod
+    def get_user(self, user_name):
+        raise NotImplementedError
+
+    #@abc.abstractmethod
+    #def add_review(self, a_review): # really not much point in these
+    #    raise NotImplementedError
+
+    #@abc.abstractmethod
+    #def get_reviews(self): # ^ ditto
+    #    raise NotImplementedError

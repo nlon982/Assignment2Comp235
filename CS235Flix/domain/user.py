@@ -1,3 +1,6 @@
+def get_user_hash(user_name):
+    return hash(user_name)
+
 class User:
     def __init__(self, user_name, password):
         # assuming user_name and password are strings
@@ -38,7 +41,7 @@ class User:
         return self.__user_name < other.user_name
 
     def __hash__(self):
-        return hash(self.__user_name) # since a unique reprsentation is deemed by user name (quote coderunner), i'll use this as a hash
+        return get_user_hash(self.__user_name) # since a unique reprsentation is deemed by user name (quote coderunner), i'll use this as a hash
 
     def watch_movie(self, a_movie):
         # assuming passed a movie object WITH a runtime

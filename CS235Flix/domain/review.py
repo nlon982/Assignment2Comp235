@@ -1,7 +1,5 @@
 from datetime import datetime
 
-from CS235Flix.domain.movie import Movie
-
 
 class Review:
     def __init__(self, movie, review_text, rating):
@@ -42,3 +40,9 @@ class Review:
 
     def __eq__(self, other):
         return (self.__movie == other.movie) and (self.__review_text == other.review_text) and (self.__rating == other.rating) and (self.__timestamp == other.timestamp)
+
+def make_review(a_user, a_movie, review_text, rating): # set up two directional association (is that the wording?)
+    a_review = Review(a_movie, review_text, rating)
+    a_user.add_review(a_review)
+    a_movie.add_review(a_review)
+    return a_review

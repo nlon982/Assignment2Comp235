@@ -20,7 +20,8 @@ def movie_to_dict(a_movie):
         'external_rating': a_movie.external_rating,
         'external_rating_votes': a_movie.external_rating_votes,
         'revenue': a_movie.revenue,
-        'metascore': a_movie.metascore
+        'metascore': a_movie.metascore,
+        'review_list': a_movie.review_list
     }
     return a_movie_dict
 

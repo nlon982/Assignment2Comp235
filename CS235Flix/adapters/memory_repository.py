@@ -1,5 +1,7 @@
 import csv
 
+import os
+
 from CS235Flix.adapters.movie_file_csv_reader import MovieFileCSVReader
 from CS235Flix.adapters.repository import AbstractRepository
 
@@ -9,12 +11,17 @@ from CS235Flix.domain.actor import Actor
 from CS235Flix.domain.person import get_person_hash
 from CS235Flix.domain.genre import Genre, get_genre_hash
 
+from CS235Flix.domain.user import User
+from CS235Flix.domain.review import Review, make_review
+
 class MemoryRepository(AbstractRepository):
 	def __init__(self):
 		self.__movie_dict = dict()
 		self.__director_dict = dict()
 		self.__actor_dict = dict()
 		self.__genre_dict = dict()
+		self.__user_list = list()
+		self.__review_list = list()
 
 	def add_movie(self, a_movie):
 		self.__movie_dict[hash(a_movie)] = a_movie
@@ -56,6 +63,13 @@ class MemoryRepository(AbstractRepository):
 	def get_all_genres(self):
 		return list(self.__genre_dict.values())
 
+	def add_user(self, user):
+		self.__user_list.append(user)
+
+	def get_user(self, user_name):
+		return next((user for user in self.__user_list if user.user_name == user_name), None)
+
+
 def add_movies(a_repo_instance, movie_list):
 	for a_movie in movie_list:
 		a_repo_instance.add_movie(a_movie)
@@ -73,8 +87,31 @@ def add_genres(a_repo_instance, genre_list):
 		a_repo_instance.add_genre(a_genre)
 
 
-def populate(csv_path, a_repo_instance):
-	movie_file_csv_reader_object = MovieFileCSVReader(csv_path)
+def read_csv_file(csv_path): # a bit of magic
+	with open(csv_path, encoding='utf-8-sig') as infile:
+		reader = csv.reader(infile)
+
+		# Read first line of the the CSV file.
+		headers = next(reader)
+
+		# Read remaining rows from the CSV file.
+		for row in reader:
+			# Strip any leading/trailing white space from data read.
+			row = [item.strip() for item in row]
+			yield row
+
+
+def add_users_to_memory_repository(user_csv_path, a_repo_instance):
+	for data_row in read_csv_file(user_csv_path):
+		a_user = User(data_row[1], data_row[2])
+		a_repo_instance.add_user(a_user)
+
+
+def populate(data_path, a_repo_instance):
+	movie_csv_path = os.path.join(data_path, 'Data1000Movies.csv')
+	user_csv_path = os.path.join(data_path, 'users.csv')
+
+	movie_file_csv_reader_object = MovieFileCSVReader(movie_csv_path)
 	movie_file_csv_reader_object.read_csv_file()
 
 	movie_list = movie_file_csv_reader_object.dataset_of_movies
@@ -87,4 +124,5 @@ def populate(csv_path, a_repo_instance):
 	add_actors(a_repo_instance, actor_list)
 	add_genres(a_repo_instance, genre_list)
 
+	add_users_to_memory_repository(user_csv_path, a_repo_instance)
 
