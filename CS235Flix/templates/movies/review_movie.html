@@ -8,16 +8,8 @@
     </header>
 
     <div style="clear:both">
-        <a href="{{article.hyperlink}}" target="_blank">
-            <img src={{article.image_hyperlink}} alt="article image">
-        </a>
-        <h2>{{article.title}}</h2>
-        <p>{{article.first_para}}</p>
-        <div style="float:left">
-            {% for tag in article.tags %}
-            <button class="btn-general-disabled" disable>{{ tag.name }}</button>
-            {% endfor %}
-        </div>
+        <h2>{{a_movie_dict.title}}</h2>
+        <p>{{a_movie_dict.description}}</p>
         <div class="form-wrapper">
             <form action="{{handler_url}}" method="post">
                 {{form.a_movie_hash}} <!-- Need to include this hidden field as it tracks the article being reviewed. -->
@@ -36,7 +28,7 @@
             </form>
         </div>
         <div style="clear:both">
-            {% for review in article.reviews %}
+            {% for review in a_movie_dict.review_list %}
                 <p>{{a_review.review_text}}. Rating: {{a_review.rating}}. Date: {{a_review.timestamp}}</p>
             {% endfor %}
         </div>

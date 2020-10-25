@@ -3,6 +3,10 @@ def get_movies(a_repo_instance):
     movie_dict_list = movies_to_dict(movie_list)
     return movie_dict_list
 
+def get_movie(title, release_year, a_repo_instance):
+    a_movie = a_repo_instance.get_movie(title, release_year)
+    a_movie_dict = movie_to_dict(a_movie)
+    return a_movie_dict
 
 ##########################################
 # Domain Model objects ->  Dictionaries
