@@ -225,18 +225,19 @@ class TestMovieMethods:
 
 class TestReview:
     def test_init(self):
-        review = Review(Movie("Star Wars", 1999), "Great Movie", 10)
+        review = Review(User("BobBoilen", "Elephant12"), Movie("Star Wars", 1999), "Great Movie", 10)
 
         assert review.movie.title == "Star Wars"
         assert review.review_text == "Great Movie"
         assert review.rating == 10
+        assert review.user.user_name == "bobboilen"
         #assert repr(review) == "<Review Star Wars 1999, Great Movie, 10 (4-9-2020)>" # dependent on date
 
 class TestUser:
     def test_all(self):
         user1 = User("nathanl127", "passwordgoeshere")
         user2 = User("boomer127", "passwordgoeshere")
-        review = Review(Movie("Star Wars", 1999), "Great Movie", 10)
+        review = Review(user1, Movie("Star Wars", 1999), "Great Movie", 10)
         a_movie = Movie("Back To The Future", 1965)
         a_movie.runtime_minutes = 10
 

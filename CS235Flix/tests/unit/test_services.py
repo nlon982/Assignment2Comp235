@@ -27,9 +27,9 @@ class TestMovieService:
         assert a_movie_dict["title"] == "Guardians"
         assert a_movie_dict["release_year"] == 2014
         assert a_movie_dict["description"] == "descriptiongoeshere"
-        assert a_movie_dict["director"] == Director("James Gunn")
-        assert a_movie_dict["actors"] == [Actor("Chris Pratt"), Actor("Vin Diesel"), Actor("Bradley Cooper")]
-        assert a_movie_dict["genres"] == [Genre("Action"), Genre("Adventure"), Genre("Sci-Fi")]
+        assert a_movie_dict["director"] == "James Gunn"
+        assert a_movie_dict["actors"] == "Chris Pratt, Vin Diesel, Bradley Cooper"
+        assert a_movie_dict["genres"] == "Action, Adventure, Sci-Fi"
         assert a_movie_dict["external_rating"] == 8.1
         assert a_movie_dict["external_rating_votes"] == 31204
         assert a_movie_dict["revenue"] == 301
@@ -45,4 +45,4 @@ class TestMovieService:
         assert movie_dict_list[0] == a_movie_dict
         assert movie_dict_list[1] == a_movie_dict
 
-# presumably the rest work as it just copy and pasted the aboves code and changed where relevant
+# presumably the rest work as it just copy and pasted the aboves' code and changed where relevant

@@ -45,6 +45,10 @@ class Movie:
             if type(a_review) == Review and a_review.movie == self: # uses short-circuiting
                 self.__review_list.append(a_review)
 
+    def add_review(self, a_review):
+        if type(a_review) == Review and a_review.movie == self:  # ^ ditto
+            self.__review_list.append(a_review)
+
     @property
     def title(self):
         return self.__title

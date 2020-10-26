@@ -3,7 +3,6 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from CS235Flix.adapters.repository import AbstractRepository
 from CS235Flix.domain.user import User
 
-import CS235Flix.adapters.repository as repo
 
 
 class NameNotUniqueException(Exception):

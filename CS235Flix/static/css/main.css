@@ -53,31 +53,66 @@ img {
 }
 
 .btn-general {
-    background-color: #fcff99;
+    background-color: #3489eb;
     color: white;
     border: none;
     border-radius: 8px;
+    width: 200px;
+    height: 50px;
+    font-size: 20px;
     display: inline-block;
-    padding: 10px;
-    margin: 5px;
-    float:left;
+    float: right;
 }
 
 .btn-general-disabled {
-    background-color: #4b4276;
+    background-color: #dedede;
+    color: white;
     border: none;
     border-radius: 8px;
+    width: 200px;
+    height: 50px;
+    font-size: 20px;
     display: inline-block;
-    padding: 10px;
-    margin: 5px;
     float:left;
     #opacity: 0.6;
 }
 
 .btn-general:hover {
-    background-color: #8acd32;
-    color: black;
+    background-color: #3b72b3;
+    color: white;
+    cursor: pointer;
 }
+
+/* Quick and fast, it'd be better to reuse the above */
+.btn-navigation {
+    background-color: #fcff99;
+    color: black;
+    border: 1px solid #e0e4e8;
+    border-radius: 8px;
+    width: 80px;
+    height: 40px;
+    font-size: 15px;
+    display: inline-block;
+}
+
+.btn-navigation-disabled {
+    background-color: #a1a1a1;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    width: 80px;
+    height: 40px;
+    font-size: 15px;
+    display: inline-block;
+    #opacity: 0.6;
+}
+
+.btn-navigation:hover {
+    background-color: #bdb655;
+    color: white;
+    cursor: pointer;
+}
+/* Gross end*/
 
 .textarea {
     width: 100%;
@@ -214,8 +249,8 @@ input[type='password'],
 
 input[type='submit'] {
     width: 100%;
-     background-color: #fcff99;
-     color: black;
+     background-color: #3489eb;
+     color: white;
      padding: 14px 20px;
      margin: 8px 0;
      border: none;
@@ -224,8 +259,8 @@ input[type='submit'] {
 }
 
 input[type='submit']:hover {
-    background-color: #bdb655;
-    color: black;
+    background-color: #3b72b3;
+    color: white;
 }
 
 .icon {
@@ -243,6 +278,7 @@ input[type='submit']:hover {
     vertical-align: text-top;
     padding: 15px;
 }
+
 
 #movie_item:hover {
     background-color: #ffb899;
