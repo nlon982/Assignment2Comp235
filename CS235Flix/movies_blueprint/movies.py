@@ -24,6 +24,10 @@ def browse():
     movies_per_page = 5
 
     cursor = request.args.get('cursor')
+    actor_to_filter = request.args.get('actor_to_filter') # this is in the form of the actor's full name
+    director_to_filter = request.args.get('director_to_filter')  # this is in the form of the director's full name
+    genre_to_filter = request.args.get('genre_to_filter')  # this is in the form of the genre's name
+    # note the above are None if they don't exist
 
     if cursor is None:
         # no cursor parameter, so start at the beginning
@@ -32,9 +36,12 @@ def browse():
         cursor = int(cursor)
 
     repo_instance = repo.repo_instance
-    all_movies = services.get_all_movies(repo_instance) # all movies in a movie_dict_list
+    if actor_to_filter == None and director_to_filter == None and genre_to_filter == None:
+        movies = services.get_all_movies(repo_instance) # running the below would work too (i.e. with Nones), this call is just way more efficient
+    else:
+        movies = services.get_movies_with_actor_director_or_genre(actor_to_filter, director_to_filter, genre_to_filter, repo_instance)
 
-    movies_to_show = all_movies[cursor: cursor + movies_per_page]
+    movies_to_show = movies[cursor: cursor + movies_per_page]
 
     prev_page_url = None
     first_page_url = None
@@ -43,20 +50,20 @@ def browse():
 
     if cursor > 0:  # inherently means not on the first page
         # ^  this improves what was there initially?
-        prev_page_url = url_for('movies_bp.browse', cursor = cursor - movies_per_page)
-        first_page_url = url_for('movies_bp.browse')  # as above, this has the effect of having cursor = 0
+        prev_page_url = url_for('movies_bp.browse', cursor = cursor - movies_per_page, actor_to_filter = actor_to_filter, director_to_filter = director_to_filter, genre_to_filter = genre_to_filter)
+        first_page_url = url_for('movies_bp.browse', actor_to_filter = actor_to_filter, director_to_filter = director_to_filter, genre_to_filter = genre_to_filter)  # as above, this has the effect of having cursor = 0
 
-    if cursor + movies_per_page < len(all_movies):  # there are further articles than what's on the current page
+    if cursor + movies_per_page < len(movies):  # there are further articles than what's on the current page
         # ^ this logic works if your cursor starts at 0
-        next_page_url = url_for('movies_bp.browse', cursor = cursor + movies_per_page)
+        next_page_url = url_for('movies_bp.browse', cursor = cursor + movies_per_page, actor_to_filter = actor_to_filter, director_to_filter = director_to_filter, genre_to_filter = genre_to_filter)
 
-        amount_of_pages_floor = len(all_movies) // movies_per_page
+        amount_of_pages_floor = len(movies) // movies_per_page
         last_cursor = movies_per_page * amount_of_pages_floor
 
-        if len(all_movies) % movies_per_page == 0:  # last page will have nothing on it
+        if len(movies) % movies_per_page == 0:  # last page will have nothing on it
             last_cursor -= movies_per_page  # the last page will have movies_per_page amount of things on it
 
-        last_page_url = url_for('movies_bp.browse', cursor = last_cursor)
+        last_page_url = url_for('movies_bp.browse', cursor = last_cursor, actor_to_filter = actor_to_filter, director_to_filter = director_to_filter, genre_to_filter = genre_to_filter)
 
 
     for a_movie_dict in movies_to_show:
@@ -126,6 +133,38 @@ def review_movie():
         handler_url=url_for('movies_bp.review_movie')
     )
 
+@movies_blueprint.route('/search_actor_director_genre', methods=['GET', 'POST'])
+def search_actor_director_genre():
+    form = SearchActorDirectorGenreForm()
+
+    if form.validate_on_submit():
+        # Successful POST, i.e. the comment text has passed data validation.
+        # Extract the article id, representing the commented article, from the form.
+        actor_full_name = form.actor_full_name.data
+        director_full_name = form.director_full_name.data
+        genre_name = form.genre_name.data
+
+        # Cause the web browser to display the page of all articles that have the same date as the commented article,
+        # and display all comments, including the new comment.
+        return redirect(url_for('movies_bp.browse', actor_to_filter = actor_full_name, director_to_filter = director_full_name, genre_to_filter = genre_name))
+
+    if request.method == 'GET':
+        # Request is a HTTP GET to display the form.
+        # Extract the article id, representing the article to comment, from a query parameter of the GET request.
+        pass
+    else:
+        # Request is a HTTP POST where form validation has failed.
+        # Extract the article id of the article being commented from the form.
+        pass
+
+    # For a GET or an unsuccessful POST, retrieve the article to comment in dict form, and return a Web page that allows
+    # the user to enter a comment. The generated Web page includes a form object.
+    return render_template(
+        'movies/search_actor_director_genre.html',
+        title='Search Actor Director Genre',
+        form=form,
+        handler_url=url_for('movies_bp.search_actor_director_genre')
+    )
 
 class ProfanityFree:
     def __init__(self, message=None):
@@ -148,4 +187,10 @@ class ReviewForm(FlaskForm):
         NumberRange(min = 0, max = 10, message = "Please choose a number between 0 and 10")])
     movie_title = HiddenField("Movie title")
     movie_release_year = HiddenField("Movie release year")
+    submit = SubmitField('Submit')
+
+class SearchActorDirectorGenreForm(FlaskForm):
+    actor_full_name = TextAreaField('Actor Full Name')
+    director_full_name = TextAreaField('Director Full Name')
+    genre_name = TextAreaField('Genre Name')
     submit = SubmitField('Submit')

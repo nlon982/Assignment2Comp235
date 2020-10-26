@@ -16,6 +16,10 @@ def add_review(user_name, movie_title, movie_release_year, review_text, rating, 
     a_movie = a_repo_instance.get_movie(movie_title, movie_release_year)
     make_review(a_user, a_movie, review_text, rating)
 
+def get_movies_with_actor_director_or_genre(actor_full_name, director_full_name, genre_name, a_repo_instance):
+    movie_list = a_repo_instance.get_movies_with_actor_director_or_genre(actor_full_name, director_full_name, genre_name)
+    movie_dict_list = movies_to_dict(movie_list)
+    return movie_dict_list
 
 ##########################################
 # Domain Model objects ->  Dictionaries

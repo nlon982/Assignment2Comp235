@@ -56,6 +56,20 @@ class TestMemoryRepositoryWithData: # this inherently tests getters and setters 
     def test_user_list(self, memory_repository_with_data):
         assert isinstance(memory_repository_with_data.get_user("thorke"), User)
 
+    def test_get_movies_with_actor(self, memory_repository_with_data): # (inherently means get_movie works). This is a helper funciton to the below, it isn't a Abstract Method
+        assert memory_repository_with_data.get_movie("Guardians of the Galaxy", 2014) in memory_repository_with_data.get_movies_with_actor("Chris Pratt")
+
+    def test_get_movies_with_director(self, memory_repository_with_data): # ditto
+        assert memory_repository_with_data.get_movie("Guardians of the Galaxy", 2014) in memory_repository_with_data.get_movies_with_director("James Gunn")
+
+    def test_get_movies_with_genre(self, memory_repository_with_data): # ditto
+        assert memory_repository_with_data.get_movie("Guardians of the Galaxy", 2014) in memory_repository_with_data.get_movies_with_genre("Action")
+
+    def test_get_movies_with_actor_director_and_genre(self, memory_repository_with_data):
+        assert memory_repository_with_data.get_movie("Guardians of the Galaxy", 2014) in memory_repository_with_data.get_movies_with_actor_director_and_genre("Chris Pratt", "James Gunn", "Action")
+
+
+
 class TestBlankMemoryRepository:
     def test_add_and_get_user(self, blank_memory_repository):
         a_user = User("oldmanjenkins", "Elephant12")

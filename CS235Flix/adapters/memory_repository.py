@@ -74,6 +74,50 @@ class MemoryRepository(AbstractRepository):
 	def get_all_users(self):
 		return self.__user_list
 
+	def get_movies_with_actor(self, actor_full_name): # this method isn't an Abstract Method (from the Abstract Repository), it's a helper for the below
+		movie_list = list()
+		try:
+			a_actor = self.get_actor(actor_full_name)
+		except:
+			return movie_list # Exception("Actor: {} is not in repository".format(actor_full_name))
+
+		for a_movie in self.get_all_movies():
+			if a_actor in a_movie.actors:
+				movie_list.append(a_movie)
+		return movie_list
+
+	def get_movies_with_director(self, director_full_name): # this method isn't an Abstract Method (from the Abstract Repository), it's a helper for the below
+		movie_list = list()
+		try:
+			a_director = self.get_director(director_full_name)
+		except:
+			#Exception("Director: {} is not in repository".format(director_full_name))
+			return movie_list
+
+		for a_movie in self.get_all_movies():
+			if a_director == a_movie.director:
+				movie_list.append(a_movie)
+		return movie_list
+
+	def get_movies_with_genre(self, genre_name): # this method isn't an Abstract Method (from the Abstract Repository), it's a helper for the below
+		movie_list = list()
+		try:
+			a_genre = self.get_genre(genre_name)
+		except:
+			#Exception("Genre: {} is not in repository".format(genre_name))
+			return movie_list
+
+		for a_movie in self.get_all_movies():
+			if a_genre in a_movie.genres:
+				movie_list.append(a_movie)
+		return movie_list
+
+	def get_movies_with_actor_director_or_genre(self, actor_full_name, director_full_name, genre_name):
+		movie_set_1 = set(self.get_movies_with_actor(actor_full_name))
+		movie_set_2 = set(self.get_movies_with_director(director_full_name))
+		movie_set_3 = set(self.get_movies_with_genre(genre_name))
+		return movie_set_1.union(movie_set_2, movie_set_3)
+
 
 def add_movies(a_repo_instance, movie_list):
 	for a_movie in movie_list:
