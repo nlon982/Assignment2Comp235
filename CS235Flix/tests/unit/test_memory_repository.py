@@ -66,7 +66,7 @@ class TestMemoryRepositoryWithData: # this inherently tests getters and setters 
         assert memory_repository_with_data.get_movie("Guardians of the Galaxy", 2014) in memory_repository_with_data.get_movies_with_genre("Action")
 
     def test_get_movies_with_actor_director_and_genre(self, memory_repository_with_data):
-        assert memory_repository_with_data.get_movie("Guardians of the Galaxy", 2014) in memory_repository_with_data.get_movies_with_actor_director_and_genre("Chris Pratt", "James Gunn", "Action")
+        assert memory_repository_with_data.get_movie("Guardians of the Galaxy", 2014) in memory_repository_with_data.get_movies_with_actor_director_or_genre("Chris Pratt", "James Gunn", "Action")
 
 
 
